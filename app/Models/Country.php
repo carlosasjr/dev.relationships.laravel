@@ -24,4 +24,21 @@ class Country extends Model
     {
         return $this->hasMany(State::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function cities()
+    {
+        return $this->hasManyThrough(City::class, State::class);
+    }
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

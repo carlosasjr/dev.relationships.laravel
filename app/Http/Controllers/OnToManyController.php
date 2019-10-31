@@ -66,4 +66,46 @@ class OnToManyController extends Controller
         $country = $state->country;
         echo 'Pais: ' . $country->name;
     }
+
+    public function onToManyInsert()
+    {
+        $dataForm = [
+            'name' => 'Bahia',
+            'initials' => 'BA'
+        ];
+
+        //recupera o pais 1
+        $country = Country::find(1);
+        $insertState = $country->states()->create($dataForm); //não esquecer de informar os $fillable no model State
+        var_dump($insertState->name);
+    }
+
+    public function onToManyInsertTwo()
+    {
+        $dataForm = [
+            'name' => 'Sergipe',
+            'initials' => 'SE',
+            'country_id' => 1
+        ];
+
+        //não é preciso recuperar o pais, pois o country_id já veio no array
+        $insertState = State::create($dataForm); //não esquecer de informar os $fillable no model State
+        var_dump($insertState->name);
+    }
+
+
+    public function hasManythrough()
+    {
+        $country = Country::find(1);
+        echo "País: <b>{$country->name}</b><br>";
+
+        $cities = $country->cities;
+
+        foreach ($cities as $city) {
+            echo $city->name . '<br>';
+        }
+
+        echo "<br>Total Cidades: {$cities->count()}";
+
+    }
 }
